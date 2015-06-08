@@ -1,23 +1,60 @@
 <html>
-<head>
-  <title></title>
-</head>
-<body>
-  <div id="display"></div>
+  <head>
+    <title></title>
+    <style>
+      svg {
+        width:960px;
+        height:500px;
+        border: 1px solid gray;
+      }
+    </style>
+  </head>
+  <body>
+    <svg></svg>
+    <div id="display"></div>
 
-  <script>
-    var display = d3.select("#display");
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tipsy/1.0.2/jquery.tipsy.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+    <script src = "table.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 
-    d3.json("../data/pics.json", function(err, pics){
-      var data = pics.data.children;
-      console.log(data);
+    <script>
+      $.ajax({
+        url:"https://www.kimonolabs.com/api/553hlgto?apikey=fR6lhnsHZjqjFQe7jbdot8lrFEw72evx&kimbywithurl=1",
+        crossDomain: true,
+        dataType: "jsonp",
+      })
+      .done(function(response) {
+        console.log("success");
+        myReturnData(response);
+      })
+      .fail(function() {
+        console.log("error");
+      })
+      .always(function() {
+        console.log("complete");
+      });
 
-      // table container (make pieces independent)
-      var tdvi = display.applend("div").classed("table", true)
-      var table = d3.chart.table()
-      table.data(data)
-      table(tdiv);
-    })
-  </script>
-</body>
+      var myReturnData = function(data){
+
+        console.log(data)
+        var display = d3.select("#display")
+        var table = display.append("table")
+        // table.append("td")
+        // .text("hi")
+        var rows = table.selectAll("tr.row")
+        .data(data)
+
+        var rowsEnter = rows.enter()
+        rowsEnter.append("td")
+        .text("hi")
+      }
+
+    </script>
+  </body>
 </html>
+
+
+
+
