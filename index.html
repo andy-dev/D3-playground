@@ -1,16 +1,10 @@
 <html>
   <head>
     <title></title>
-    <style>
-      svg {
-        width:960px;
-        height:500px;
-        border: 1px solid gray;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
-    <svg></svg>
+
     <div id="display"></div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -21,7 +15,7 @@
 
     <script>
       $.ajax({
-        url:"https://www.kimonolabs.com/api/553hlgto?apikey=fR6lhnsHZjqjFQe7jbdot8lrFEw72evx&kimbywithurl=1",
+        url:"https://www.kimonolabs.com/api/553hlgto?apikey=fR6lhnsHZjqjFQe7jbdot8lrFEw72evx&kimbywithurl",
         crossDomain: true,
         dataType: "jsonp",
       })
@@ -38,17 +32,32 @@
 
       var myReturnData = function(data){
 
-        console.log(data)
+        myData = data.results.details
+
         var display = d3.select("#display")
         var table = display.append("table")
         // table.append("td")
         // .text("hi")
         var rows = table.selectAll("tr.row")
-        .data(data)
+        .data(myData)
 
         var rowsEnter = rows.enter()
+        .append("tr").classed("row", true)
         rowsEnter.append("td")
-        .text("hi")
+        .text(function(d) {return d.company})
+        rowsEnter.append("td")
+        .append('img')
+        .attr({
+          src: function(d) {return d.image.src}
+        })
+        rowsEnter.append("td")
+        .append("a")
+        .attr({
+          href: function(d) {return d.url}
+        }).text(function(d) {return d.name})
+
+
+
       }
 
     </script>
