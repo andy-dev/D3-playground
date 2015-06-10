@@ -11,56 +11,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tipsy/1.0.2/jquery.tipsy.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
     <script src = "table.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-
     <script>
-      $.ajax({
-        url:"https://www.kimonolabs.com/api/553hlgto?apikey=fR6lhnsHZjqjFQe7jbdot8lrFEw72evx&kimbywithurl",
-        crossDomain: true,
-        dataType: "jsonp",
+
+      var display = d3.select("#display")
+      d3.json("data.json", function(err, pics){
+
+      var data = pics.results.details
+
+
+      // table container
+      var tdiv = display.append('div').classed("table", true)
+
+      // d3 style of doing things function that returns a function
+      // we set data and then we want to return it
+
+      var table = d3.chart.table()
+
+      // we specify we want the data that we want
+      table.data(data)
+
+      // when we want to render we pass the container we want to render it on
+      table(tdiv);
+
       })
-      .done(function(response) {
-        console.log("success");
-        myReturnData(response);
-      })
-      .fail(function() {
-        console.log("error");
-      })
-      .always(function() {
-        console.log("complete");
-      });
-
-      var myReturnData = function(data){
-
-        myData = data.results.details
-
-        var display = d3.select("#display")
-        var table = display.append("table")
-        // table.append("td")
-        // .text("hi")
-        var rows = table.selectAll("tr.row")
-        .data(myData)
-
-        var rowsEnter = rows.enter()
-        .append("tr").classed("row", true)
-        rowsEnter.append("td")
-        .text(function(d) {return d.company})
-        rowsEnter.append("td")
-        .append('img')
-        .attr({
-          src: function(d) {return d.image.src}
-        })
-        rowsEnter.append("td")
-        .append("a")
-        .attr({
-          href: function(d) {return d.url}
-        }).text(function(d) {return d.name})
-
-
-
-      }
-
     </script>
+
+
   </body>
 </html>
 
